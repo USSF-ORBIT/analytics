@@ -3,18 +3,23 @@ version: '3.8'
 services:
   matomo:
     build: .
+    # image: bitnami/matomo:4
     ports:
-      - '80:8080'
+      - '8080:8080'
       - '443:8443'
     environment:
       - MATOMO_DATABASE_HOST=matomo_db
       - MATOMO_DATABASE_PORT_NUMBER=3306
       - MATOMO_DATABASE_USER=bn_matomo
       - MATOMO_DATABASE_NAME=bitnami_matomo
+      - BITNAMI_DEBUG=true
       # ALLOW_EMPTY_PASSWORD is recommended only for development.
       - ALLOW_EMPTY_PASSWORD=yes
     volumes:
       - 'matomo_data:/bitnami/matomo'
+      # - ./config:/var/www/html/config
+      # - ./config/config.ini.php:/bitnami/matomo/config/config.ini.php
+
     depends_on:
       - matomo_db
 
