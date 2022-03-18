@@ -7,6 +7,8 @@ services:
       - '8080:8080'
       - '443:8443'
     environment:
+      - MATOMO_USERNAME=${MATOMO_USERNAME}
+      - MATOMO_PASSWORD=${MATOMO_PASSWORD}
       - MATOMO_DATABASE_HOST=matomo_db
       - MATOMO_DATABASE_PORT_NUMBER=3306
       - MATOMO_DATABASE_USER=${MARIADB_USER}
