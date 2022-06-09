@@ -4,7 +4,7 @@ Analytics platform supporting the USSF portal
 
 ## Local Development
 
-You may need to delcare these env vars in `.envrc.local` if you want to build and or push locally.
+You may need to declare these env vars in `.envrc.local` if you want to build and or push locally.
 
 ```shell
 export ARTIFACTORY_TOKEN=''
