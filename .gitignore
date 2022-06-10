@@ -1,0 +1,6 @@
+.awcache
+.DS_Store
+
+# dotenv environment variables file
+.env
+.envrc.local

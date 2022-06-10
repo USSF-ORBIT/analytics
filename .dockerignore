@@ -1,0 +1,7 @@
+.github
+.envrc*
+.gitignore
+README.md
+renovate.json
+Dockerfile
+docker-compose*
