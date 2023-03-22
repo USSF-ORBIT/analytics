@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 bitnami/matomo:4.10.1
+FROM bitnami/matomo:4.10.1
 
 # We need to be root to do anything
 USER 0

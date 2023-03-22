@@ -27,6 +27,7 @@ services:
       - "matomo_data:/bitnami/matomo"
     depends_on:
       - mariadb
+    platform: linux/amd64
 volumes:
   mariadb_data:
     driver: local
