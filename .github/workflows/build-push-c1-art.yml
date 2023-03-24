@@ -23,32 +23,28 @@ jobs:
               http = false
               insecure = true
 
-      - name: Build
-        uses: docker/build-push-action@1104d471370f9806843c095c1db02b5a90c5f8b6 # v3
-        with:
-          context: .
-          push: false
-          load: true
-          tags: ${{ secrets.C1_REGISTRY}}/${{ secrets.C1_REPOSITORY }}:${{ github.sha }}
-          build-args: |
-            BUILD=${{ github.sha }}
-
-      - name: Login to Artifactory Container Registry
+      - name: Login to Dev Artifactory Container Registry
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # v2
         with:
           registry: ${{ secrets.C1_REGISTRY }}
           username: ${{ secrets.C1_ART_USERNAME }}
           password: ${{ secrets.C1_ARTIFACTORY_TOKEN }}
 
-      - name: Push image to C1 Dev Artifactory
-        id: build-c1-image
+
+      - name: Build and  Push image to C1 Dev Artifactory
+        uses: docker/build-push-action@1104d471370f9806843c095c1db02b5a90c5f8b6 # v3
         env:
           IMAGE_TAG: ${{ github.sha }}
           C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
           C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
+        with:
+          context: .
+          push: true
+          tags: ${{ C1_REGISTRY}}/${{ C1_REPOSITORY }}:${{ IMAGE_TAG }}
+          build-args: |
+            BUILD=${{ IMAGE_TAG }}
 
-        run: |
-          docker login -u portal -p ${{ secrets.C1_ARTIFACTORY_TOKEN }} $C1_REGISTRY
-          docker push $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG
-          echo "image=$C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
-          docker logout $C1_REGISTRY
+      - name: Print image details
+        id: details
+        run: echo "image=$C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+  
