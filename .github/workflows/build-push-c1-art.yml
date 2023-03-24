@@ -40,11 +40,15 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ C1_REGISTRY}}/${{ C1_REPOSITORY }}:${{ IMAGE_TAG }}
+          tags: ${{ secrets.C1_REGISTRY}}/${{ secrets.C1_REPOSITORY }}:${{ github.sha }}
           build-args: |
             BUILD=${{ IMAGE_TAG }}
 
       - name: Print image details
         id: details
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
+          C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
         run: echo "image=$C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
   
