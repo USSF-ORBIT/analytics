@@ -33,6 +33,13 @@ jobs:
           build-args: |
             BUILD=${{ github.sha }}
 
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # v2
+        with:
+          registry: ${{ secrets.C1_REGISTRY }}
+          username: ${{ C1_ART_USERNAME }}
+          password: ${{ secrets.C1_ARTIFACTORY_TOKEN }}
+
       - name: Push image to C1 Dev Artifactory
         id: build-c1-image
         env:
