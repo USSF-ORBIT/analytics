@@ -42,7 +42,7 @@ jobs:
           push: true
           tags: ${{ secrets.C1_REGISTRY}}/${{ secrets.C1_REPOSITORY }}:${{ github.sha }}
           build-args: |
-            BUILD=${{ IMAGE_TAG }}
+            BUILD=${{ github.sha }}
 
       - name: Print image details
         id: details
