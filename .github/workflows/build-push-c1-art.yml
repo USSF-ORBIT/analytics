@@ -33,10 +33,6 @@ jobs:
 
       - name: Build and  Push image to C1 Dev Artifactory
         uses: docker/build-push-action@1104d471370f9806843c095c1db02b5a90c5f8b6 # v3
-        env:
-          IMAGE_TAG: ${{ github.sha }}
-          C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
-          C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
         with:
           context: .
           push: true
@@ -51,4 +47,3 @@ jobs:
           C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
           C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
         run: echo "image=$C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
-  
