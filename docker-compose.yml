@@ -23,10 +23,13 @@ services:
       - MATOMO_DATABASE_NAME=bitnami_matomo
       # ALLOW_EMPTY_PASSWORD is recommended only for development.
       - ALLOW_EMPTY_PASSWORD=yes
+      - MATOMO_WEBSITE_NAME=portal
+      - MATOMO_WEBSITE_HOST=http://localhost:3000
     volumes:
       - "matomo_data:/bitnami/matomo"
     depends_on:
       - mariadb
+    platform: linux/amd64
 volumes:
   mariadb_data:
     driver: local
