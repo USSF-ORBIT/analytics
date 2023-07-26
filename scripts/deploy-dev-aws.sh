@@ -3,7 +3,7 @@ set -e
 IMAGE=${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
 TASK_FAMILY="Matomo"
 
-TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition keystone --query '{
+TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition Matomo --query '{
                 containerDefinitions: taskDefinition.containerDefinitions,
                 family: taskDefinition.family,
                 taskRoleArn: taskDefinition.taskRoleArn,
