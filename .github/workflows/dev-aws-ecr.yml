@@ -81,7 +81,7 @@ jobs:
       - name: Download task definition | Update Task Definition | Update ECS Service | Deploy new image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: Matomo
+          ECR_REPOSITORY: matomo
           IMAGE_TAG: ${{ steps.matomo_version.outputs.matomo_tag }}-${{ github.sha }}
         run: |
           ./scripts/deploy-dev-aws.sh
