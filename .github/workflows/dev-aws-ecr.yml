@@ -70,12 +70,13 @@ jobs:
             BUILD=${{ github.sha }}
             MATOMO_VERSION=${{ steps.matomo_version.outputs.matomo_tag }}
 
-      # - name: Snapshot RDS
-      #   env:
-      #     RDS_INSTANCE: ${{ secrets.RDS_INSTANCE }}
-      #     IMAGE_TAG: ${{ github.sha }}
-      #   run: |
-      #     ./scripts/snapshot-rds.sh
+      - name: Snapshot RDS
+        env:
+          RDS_INSTANCE: "matomo-rds"
+          IMAGE_TAG: ${{ github.sha }}
+          MATOMO_VERSION: ${{ steps.matomo_version.outputs.matomo_tag }}
+        run: |
+          ./scripts/snapshot-rds.sh
 
       # - name: Download task definition | Update Task Definition | Update ECS Service | Deploy new image
       #   env:
