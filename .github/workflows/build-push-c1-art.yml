@@ -30,12 +30,18 @@ jobs:
           username: ${{ secrets.C1_ART_USERNAME }}
           password: ${{ secrets.C1_ARTIFACTORY_TOKEN }}
 
+      - name: Get Matomo version
+        id: matomo_version
+        run: |
+          matomo-docker-tag=$(grep "bitnami/matomo:" Dockerfile | cut -d ":" -f 2)
+          echo "matomo_tag=${matomo-docker-tag}" >> $GITHUB_OUTPUT
+
       - name: Build and  Push image to C1 Dev Artifactory
         uses: docker/build-push-action@1104d471370f9806843c095c1db02b5a90c5f8b6 # v3
         with:
           context: .
           push: true
-          tags: ${{ secrets.C1_REGISTRY}}/${{ secrets.C1_REPOSITORY }}:${{ github.sha }}
+          tags: ${{ secrets.C1_REGISTRY}}/${{ secrets.C1_REPOSITORY }}:${{ steps.matomo_version.outputs.matomo_tag }}-${{ github.sha }}
           build-args: |
             BUILD=${{ github.sha }}
 

@@ -52,7 +52,6 @@ jobs:
         with:
           install: true
 
-
       - name: Get Matomo version
         id: matomo_version
         run: |
