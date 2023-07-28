@@ -56,8 +56,8 @@ jobs:
       - name: Get Matomo version
         id: matomo_version
         run: |
-          digest=$(grep "bitnami/matomo:" Dockerfile | cut -d ":" -f 2)
-          echo "matomo_tag=${digest##sha256:}" >> $GITHUB_OUTPUT
+          matomo-docker-tag=$(grep "bitnami/matomo:" Dockerfile | cut -d ":" -f 2)
+          echo "matomo_tag=${matomo-docker-tag}" >> $GITHUB_OUTPUT
 
       - name: Build and push
         uses: docker/build-push-action@2eb1c1961a95fc15694676618e422e8ba1d63825 # v4
