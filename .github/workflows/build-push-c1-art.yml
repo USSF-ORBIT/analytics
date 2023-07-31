@@ -23,12 +23,7 @@ jobs:
               http = false
               insecure = true
 
-      - name: Login to Dev Artifactory Container Registry
-        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # v2
-        with:
-          registry: ${{ secrets.C1_REGISTRY }}
-          username: ${{ secrets.C1_ART_USERNAME }}
-          password: ${{ secrets.C1_ARTIFACTORY_TOKEN }}
+
 
       - name: Get Matomo version
         id: matomo_version
@@ -40,10 +35,18 @@ jobs:
         uses: docker/build-push-action@1104d471370f9806843c095c1db02b5a90c5f8b6 # v3
         with:
           context: .
-          push: true
+          push: false
+          load: true
           tags: ${{ secrets.C1_REGISTRY}}/${{ secrets.C1_REPOSITORY }}:${{ steps.matomo_version.outputs.matomo_tag }}-${{ github.sha }}
           build-args: |
             BUILD=${{ github.sha }}
+
+      - name: Login to Dev Artifactory Container Registry
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # v2
+        with:
+          registry: ${{ secrets.C1_REGISTRY }}
+          username: ${{ secrets.C1_ART_USERNAME }}
+          password: ${{ secrets.C1_ARTIFACTORY_TOKEN }}
 
       - name: Print image details
         id: details
@@ -53,5 +56,6 @@ jobs:
           C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
         run: |
           echo "image=$C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          docker push $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG
           docker tag $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG $C1_REGISTRY/dockerreadyforprod/portal/matomo:$IMAGE_TAG
           docker push $C1_REGISTRY/dockerreadyforprod/portal/matomo:$IMAGE_TAG
