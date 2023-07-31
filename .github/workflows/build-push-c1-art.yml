@@ -48,7 +48,10 @@ jobs:
       - name: Print image details
         id: details
         env:
-          IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: ${{ steps.matomo_version.outputs.matomo_tag }}-${{ github.sha }}
           C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
           C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
-        run: echo "image=$C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+        run: |
+          echo "image=$C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          docker tag $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG $C1_REGISTRY/dockerreadyforprod/portal/matomo:$IMAGE_TAG
+          docker push $C1_REGISTRY/dockerreadyforprod/portal/matomo:$IMAGE_TAG
