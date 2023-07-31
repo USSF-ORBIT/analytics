@@ -23,15 +23,13 @@ jobs:
               http = false
               insecure = true
 
-
-
       - name: Get Matomo version
         id: matomo_version
         run: |
           matomoTag=$(grep "bitnami/matomo:" Dockerfile | cut -d ":" -f 2)
           echo "matomo_tag=${matomoTag}" >> $GITHUB_OUTPUT
 
-      - name: Build and  Push image to C1 Dev Artifactory
+      - name: Build and Load image into local Docker
         uses: docker/build-push-action@1104d471370f9806843c095c1db02b5a90c5f8b6 # v3
         with:
           context: .
@@ -48,14 +46,13 @@ jobs:
           username: ${{ secrets.C1_ART_USERNAME }}
           password: ${{ secrets.C1_ARTIFACTORY_TOKEN }}
 
-      - name: Print image details
+      - name: Push to Dev Artifactory, Tag and Push to Prod Artifactory
         id: details
         env:
           IMAGE_TAG: ${{ steps.matomo_version.outputs.matomo_tag }}-${{ github.sha }}
           C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
           C1_REPOSITORY: ${{ secrets.C1_REPOSITORY }}
         run: |
-          echo "image=$C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
           docker push $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG
           docker tag $C1_REGISTRY/$C1_REPOSITORY:$IMAGE_TAG $C1_REGISTRY/dockerreadyforprod/portal/matomo:$IMAGE_TAG
           docker push $C1_REGISTRY/dockerreadyforprod/portal/matomo:$IMAGE_TAG
