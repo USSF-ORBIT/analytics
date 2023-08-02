@@ -47,7 +47,6 @@ jobs:
           password: ${{ secrets.C1_ARTIFACTORY_TOKEN }}
 
       - name: Push to Dev Artifactory, Tag and Push to Prod Artifactory
-        id: details
         env:
           IMAGE_TAG: ${{ steps.matomo_version.outputs.matomo_tag }}-${{ github.sha }}
           C1_REGISTRY: ${{ secrets.C1_REGISTRY }}
