@@ -9,8 +9,7 @@ COPY scripts/add-rds-cas.sh /usr/local/etc/add-rds-cas.sh
 RUN /usr/local/etc/add-rds-cas.sh
 
 # Switch back to non-root user
-# USER 1001
-# The above command has been disabled as Matomo upgrades are not able to progress without root user
+USER 1001
 
 # Explicitly tell Apache to use port 8443 for HTTPS and 8080 for HTTP
 ENV APACHE_HTTPS_PORT_NUMBER=8443
