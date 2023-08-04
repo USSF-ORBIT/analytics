@@ -1,4 +1,4 @@
-FROM bitnami/matomo:4.13.0
+FROM bitnami/matomo:4.15.0
 
 # We need to be root to do anything
 USER 0
