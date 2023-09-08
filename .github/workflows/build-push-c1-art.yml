@@ -30,7 +30,7 @@ jobs:
           echo "matomo_tag=${matomoTag}" >> $GITHUB_OUTPUT
 
       - name: Build and Load image into local Docker
-        uses: docker/build-push-action@1104d471370f9806843c095c1db02b5a90c5f8b6 # v3
+        uses: docker/build-push-action@0a97817b6ade9f46837855d676c4cca3a2471fc9 # v4
         with:
           context: .
           push: false
